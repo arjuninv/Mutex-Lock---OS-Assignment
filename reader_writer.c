@@ -8,6 +8,7 @@
 #define max_writers 20
 
 pthread_mutex_t lock; 
+pthread_cond_t cond1 = PTHREAD_COND_INITIALIZER; 
 
 int shared_variable = 0;
 
@@ -24,14 +25,16 @@ void *read_func(void *args) {
     printf("The value read %d\n", shared_variable);
     reader_count--;
     printf("The number of readers present when value is read %d\n", reader_count);
-
+    if (reader_count == 0) {
+        pthread_cond_signal(&cond1); 
+    }
 
     pthread_mutex_unlock(&lock); 
 }
 
 void *write_func(void *args) {
-    while (reader_count != 0);
     pthread_mutex_lock(&lock);
+    pthread_cond_wait(&cond1, &lock); 
 
     sleep(rand() % 5);
 
@@ -66,13 +69,14 @@ int main(void)
     pthread_t writer_thread_id[writer_count];
 
     // Random initialization of readers & writers
-
-    for (int i=0; i<writer_count; i++) {
-        pthread_create(&reader_thread_id[reader_left-1], NULL, read_func, NULL);    
-    }
-
-    for (int i=0; i<reader_count; i++) {
-        pthread_create(&writer_thread_id[writer_left-1], NULL, write_func, NULL);
+    while (reader_left > 0 || writer_left > 0) {
+        if (rand() % 2 && reader_left > 0) {
+            pthread_create(&reader_thread_id[reader_left-1], NULL, read_func, NULL);
+            reader_left--;
+        } else if (writer_left > 0) {
+            pthread_create(&writer_thread_id[writer_left-1], NULL, write_func, NULL);
+            writer_left--;
+        }
     }
 
     // Wait for all threads to be executed
