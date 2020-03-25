@@ -26,7 +26,7 @@ void *read_func(void *args) {
     reader_count--;
     printf("The number of readers present when value is read %d\n", reader_count);
     if (reader_count == 0) {
-        pthread_cond_signal(&cond1); 
+        pthread_cond_broadcast(&cond1); 
     }
 
     pthread_mutex_unlock(&lock); 
