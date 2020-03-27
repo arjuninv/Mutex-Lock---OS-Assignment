@@ -5,14 +5,14 @@
 #include <pthread.h>
 #include <time.h> 
 
-#define max_writers 20
+#define max_workers 5
 
 pthread_mutex_t lock; 
 pthread_cond_t cond1 = PTHREAD_COND_INITIALIZER; 
 
 int shared_variable = 0;
 
-int writer_queue[max_writers];
+int writer_queue[max_workers];
 int writer_count = 0;
 
 int reader_count = 0;
@@ -53,8 +53,16 @@ int main(void)
     printf("Enter number of readers: ");
     scanf("%d", &reader_count);
 
+    if(reader_count > max_workers) {
+        printf("Reader count out of bound (%d)", max_workers);
+    }
+
     printf("Enter number of writers: ");
     scanf("%d", &writer_count);
+    
+    if(writer_count > max_workers) {
+        printf("Writer count out of bound (%d)", max_workers);
+    }
 
     printf("Enter (%d) values for writers to write: ", writer_count);
     for (int i=0; i<writer_count; i++) {
