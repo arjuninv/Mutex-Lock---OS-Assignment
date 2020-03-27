@@ -55,13 +55,15 @@ int main(void)
 
     if(reader_count > max_workers) {
         printf("Reader count out of bound (%d)", max_workers);
+        return -1;
     }
 
     printf("Enter number of writers: ");
     scanf("%d", &writer_count);
-    
+
     if(writer_count > max_workers) {
         printf("Writer count out of bound (%d)", max_workers);
+        return -1;
     }
 
     printf("Enter (%d) values for writers to write: ", writer_count);

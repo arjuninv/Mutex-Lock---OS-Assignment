@@ -1,0 +1,8 @@
+The value read 0
+The number of readers present when value is read 1
+The value read 0
+The number of readers present when value is read 0
+The written value 5
+The number of readers present were when value is written 0
+The written value 4
+The number of readers present were when value is written 0
