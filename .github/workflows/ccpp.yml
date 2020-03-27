@@ -16,6 +16,8 @@ jobs:
     - name: make
       run: make
     - name: test
-      run: sudo ./test.sh
+      run: |
+        chmod +x ./test.sh
+        ./test.sh
     - name: clean
       run: make clean
