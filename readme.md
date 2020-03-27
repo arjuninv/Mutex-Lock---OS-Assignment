@@ -1,5 +1,5 @@
 # Mutex Lock with condition broadcasting
-A multithreded program that establishes priority in execution between two categories of threads. This implementation makes use of "mutex locks" and "condition variables" wherin the last instance higher priority thread broadcasts a signal to trigger the execution of the lower priority counterparts. 
+A multi-threaded program that establishes priority in execution between two categories of threads (reader and writer). This implementation makes use of "mutex locks" and "condition variables" wherin the last instance of the higher priority thread (reader) broadcasts a signal to trigger the execution of the lower priority counterparts (writers). 
 
 
 ## Test Cases
