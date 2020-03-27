@@ -13,5 +13,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: make test
-      run: sudo make test
+    - name: make
+      run: make
+    - name: test
+      run: sudo ./test.sh
+    - name: clean
+      run: make clean
