@@ -74,6 +74,8 @@ int main(void)
     
     int reader_left = reader_count;
     int writer_left = writer_count;
+    int READER_COUNT = reader_count;
+    int WRITER_COUNT = writer_count;
 
     pthread_t reader_thread_id[reader_count];
     pthread_t writer_thread_id[writer_count];
@@ -90,11 +92,11 @@ int main(void)
     }
 
     // Wait for all threads to be executed
-    for (int i=0; i<writer_count; i++) {
+    for (int i=0; i<WRITER_COUNT; i++) {
         pthread_join(writer_thread_id[i], NULL); 
     }
 
-    for (int i=0; i<reader_count; i++) {
+    for (int i=0; i<READER_COUNT; i++) {
         pthread_join(reader_thread_id[i], NULL); 
     }
 
