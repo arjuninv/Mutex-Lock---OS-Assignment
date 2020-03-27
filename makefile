@@ -4,7 +4,7 @@ all:
 	clean
 test:
 	gcc -pthread reader_writer.c -o output.o
-	./test.sh
+	sudo ./test.sh
 	rm tests/output_latest.txt
 clean:
 	rm output.o tests/output_latest.txt
