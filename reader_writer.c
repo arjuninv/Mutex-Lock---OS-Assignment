@@ -6,6 +6,7 @@
 #include <time.h> 
 
 #define max_workers 5
+#define X 1
 
 pthread_mutex_t lock; 
 pthread_cond_t cond1 = PTHREAD_COND_INITIALIZER; 
@@ -20,11 +21,14 @@ int reader_count = 0;
 void *read_func(void *args) {
     pthread_mutex_lock(&lock);
     
-    sleep(rand() % 5);
-
-    printf("The value read %d\n", shared_variable);
     reader_count--;
-    printf("The number of readers present when value is read %d\n", reader_count);
+    
+    for (int i=0; i<X; i++) {
+        sleep(rand() % 5);
+        printf("The value read %d\n", shared_variable);
+        printf("The number of readers present when value is read %d\n", reader_count);
+    }
+
     if (reader_count == 0) {
         pthread_cond_broadcast(&cond1); 
     }
@@ -36,12 +40,12 @@ void *write_func(void *args) {
     pthread_mutex_lock(&lock);
     pthread_cond_wait(&cond1, &lock); 
 
-    sleep(rand() % 5);
-
-    shared_variable = writer_queue[writer_count-1];
-
-    printf("The written value %d\n", writer_queue[writer_count-1]);
-    printf("The number of readers present were when value is written %d\n", reader_count);
+    for (int i=0; i<X; i++) {
+        sleep(rand() % 5);
+        shared_variable = writer_queue[writer_count-1];
+        printf("The written value %d\n", writer_queue[writer_count-1]);
+        printf("The number of readers present were when value is written %d\n", reader_count);
+    }
 
     writer_count--;
     pthread_mutex_unlock(&lock); 
