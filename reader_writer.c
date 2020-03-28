@@ -53,11 +53,6 @@ int main(void)
     printf("Enter number of readers: ");
     scanf("%d", &reader_count);
 
-    if(reader_count > max_workers) {
-        printf("Reader count out of bound (%d)", max_workers);
-        return -1;
-    }
-
     printf("Enter number of writers: ");
     scanf("%d", &writer_count);
 
@@ -91,6 +86,9 @@ int main(void)
         }
     }
 
+    if (READER_COUNT == 0) {
+        pthread_cond_broadcast(&cond1);
+    }
     // Wait for all threads to be executed
     for (int i=0; i<WRITER_COUNT; i++) {
         pthread_join(writer_thread_id[i], NULL); 
